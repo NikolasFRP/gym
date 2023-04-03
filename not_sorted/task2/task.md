@@ -28,4 +28,4 @@
 
 | Ввод| Вывод |
 | --- | --- |
-| <br>3<br>9 10 7<br>0 7 7<br>8 3 4<br><br><br> | <br><br>7<br>10<br>7<br>7<br>4<br>3<br>8<br>0<br>9<br> |
+| <br>3<br>9 10 7<br>0 7 7<br>8 3 4<br><br><br> | 7<br>10<br>7<br>7<br>4<br>3<br>8<br>0<br>9 |
