@@ -78,7 +78,7 @@ void shift_right(const int *bin1, int shift, int size, int*res) {
     res[0] = 0;
 }
 
-void multiply(int *bin1, int *arr2, int size1, int size2, int *res) {
+void multiply(int *bin1, int *bin2, int size1, int size2, int *res) {
     int shift = 0;
     int* temp[SIZE] = {0};
     int* one[SIZE] = {0};
@@ -86,10 +86,10 @@ void multiply(int *bin1, int *arr2, int size1, int size2, int *res) {
     from_int_to_decimal(on, (int*)&one, SIZE);
     for (int i = size1-1; i >=0; ++i) {
         ++shift;
-        if(arr2[i] == 1){
+        if(bin2[i] == 1){
             printf("\n-shift left-\n");
 
-            shift_left(arr2,shift,SIZE,temp);
+            shift_left(bin1, shift, SIZE, temp);
             print_arr(temp,SIZE);
             printf("\n");
             s21_add_int(temp,one,res,SIZE);
