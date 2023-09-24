@@ -1,52 +1,105 @@
 #include <stdio.h>
-#include "new.h"
 
-int pow_two(int index);
+long int pow_two(int index);
 
-void print_arr(int *arr, int size);
+void print_arr(const int *arr, int size);
 
 void multiply(int *bin1, int *bin2, int size1, int size2, int *res);
 
 void s21_add_int(const int *bin1, const int *bin2, int *binans, int binsize);
-int from_decimal_to_int(const int*bin, int bin_size);
-void from_int_to_decimal(int num, int* bin, int bin_size);
+
+long int from_decimal_to_int(const int *bin, int bin_size);
+
+void from_int_to_decimal(long int num, int *bin, int bin_size);
+
+void shift_left(const int *bin1, int shift, int size, int *res);
+
+void shift_right(const int *bin1, int shift, int size, int *res);
+
+#define SIZE 32
 
 int main() {
-    int a[32] = {0};
-    int b[32] = {0};
-    int res[32] = {0};
-    from_int_to_decimal(45, a, 32);
-    from_int_to_decimal(5, b, 32);
-    s21_add_int(a,b,res, 32);
-    print_arr(res,32);
-    int intres = from_decimal_to_int(res,32);
+    int a[SIZE] = {0};
+    int b[SIZE] = {0};
+    int res[SIZE] = {0};
+    long int number1 = 1;
+    long int number2 = 45; // 225
+    from_int_to_decimal(number1, a, SIZE);
+    from_int_to_decimal(number2, b, SIZE);
 
-    printf("\n%d", intres);
+    print_arr(a, SIZE);
+    printf("\n");
+    print_arr(b, SIZE);
+    printf("\n");
+    printf("\n");
+
+    multiply(a,b,SIZE,SIZE,res);
+
+
+    long int intres = from_decimal_to_int(res, SIZE);
+
+    printf("\n%ld", intres);
 //    for (int i = 0; i < 28; ++i) {
 //        printf("%d - %d\n", i, pow_two(i));
 //    }
     return 0;
 }
 
-void from_int_to_decimal(int num, int* bin, int bin_size){
-    int index = 0;
-    for (int i = bin_size-1; i >=0 ; --i) {
-        bin[i] = num%2;
-        num=num/2;
-    }
-}
+long int from_decimal_to_int(const int *bin, int bin_size) {
+    long int ans = 0;
+    for (int i = SIZE -1; i >= 0; --i) {
+        int pow = SIZE-i-1;
 
-void multiply(int *bin1, int *arr2, int size1, int size2, int *res) {
-    
-}
-int from_decimal_to_int(const int*bin, int bin_size){
-    int ans = 0;
-    for (int i = bin_size-1; i >=0; --i) {
-        ans = ans + bin[i] * pow_two(31-i);
+        int cell = bin[i];
+        ans = ans + cell * pow_two(pow);;
     }
     return ans;
 }
+
+void from_int_to_decimal(long int num, int *bin, int bin_size) {
+    for (int i = bin_size - 1; i >= 0; --i) {
+        bin[i] = num % 2;
+        num = num / 2;
+    }
+}
+
+void shift_left(const int *bin1, int shift, int size, int *res) {
+    for (int i = 0; i < size - 1; ++i) {
+        int m = bin1[i + 1];
+        res[i] = m;
+    }
+    res[size-1] = 0;
+}
+
+void shift_right(const int *bin1, int shift, int size, int*res) {
+    for (int i = size - 1; i >= 1; --i) {
+        res[i] = bin1[i - 1];
+    }
+    res[0] = 0;
+}
+
+void multiply(int *bin1, int *arr2, int size1, int size2, int *res) {
+    int shift = 0;
+    int* temp[SIZE] = {0};
+    int* one[SIZE] = {0};
+    long int on = 1;
+    from_int_to_decimal(on, (int*)&one, SIZE);
+    for (int i = size1-1; i >=0; ++i) {
+        ++shift;
+        if(arr2[i] == 1){
+            printf("\n-shift left-\n");
+
+            shift_left(arr2,shift,SIZE,temp);
+            print_arr(temp,SIZE);
+            printf("\n");
+            s21_add_int(temp,one,res,SIZE);
+            shift=0;
+        }
+    }
+}
+
 void s21_add_int(const int *bin1, const int *bin2, int *binans, int binsize) {
+    //todo process owerflow
     int cur = 0;
     int mem = 0;
     for (int i = binsize; i >= 0; --i) {
@@ -62,14 +115,16 @@ void s21_add_int(const int *bin1, const int *bin2, int *binans, int binsize) {
         }
     }
 }
-void print_arr(int *arr, int size) {
+
+void print_arr(const int *arr, int size) {
     for (int i = 0; i < size; ++i) {
-        printf("%d ", arr[i]);
+        int m = arr[i];
+        printf("%d ", m);
     }
 }
 
-int pow_two(int index) {
-    int current = 1;
+long int pow_two(int index) {
+    long int current = 1;
     for (int i = 0; i < index; ++i) {
         current = current * 2;
     }
