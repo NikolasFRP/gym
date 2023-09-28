@@ -98,8 +98,40 @@ void multiply(int *bin1, int *bin2, int size1, int size2, int *res) {
     }
 }
 
+/*
+ *
+ 		111010101
+		000101011
+        ---------
+		111010101
+	   111010101
+     111010101
+   111010101
+
+negative numbers
+
+    000101101    1
+    111010010
+            1
+    111010011
+int m = -45;
+
+    0100000
+    0000001
+    -------
+    0011111
+    0000001
+    -------
+    0011110
+
+ */
+
+
 void s21_add_int(const int *bin1, const int *bin2, int *binans, int binsize) {
     //todo process owerflow
+//    if (a == negative and b != negative or наоборот)
+//        s21_
+//        return 0;
     int cur = 0;
     int mem = 0;
     for (int i = binsize; i >= 0; --i) {
